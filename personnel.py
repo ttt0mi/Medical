@@ -1,11 +1,13 @@
 from personal import Personal
 from utilities.medical_history import MedicalHistory
+from utilities.specialisations import Specialisation
 
 class Doctor(Personal):
 	count = 0
 	def __init__(self, first_name: str, last_name: str, date_of_birth: str, specialisation: str):
 		super().__init__(first_name, last_name, date_of_birth)
-		self.specialisation = specialisation
+		self.validate_specialisation(specialisation.lower())
+		self.specialisation = Specialisation(specialisation.lower())
 
 	@classmethod
 	def __assign_id(cls):
@@ -20,11 +22,14 @@ class Doctor(Personal):
 
 	@specialisation.setter
 	def specialisation(self, specialisation):
-		self.__specialisation = specialisation
+		self.validate_specialisation(specialisation.lower())
+		self.__specialisation = Specialisation(specialisation.lower())
 
 	@staticmethod
 	def validate_specialisation(specialisation: str):
-		pass
+		try: Specialisation(specialisation)
+		except AttributeError:
+			raise AttributeError(f"Specialisation {specialisation} does not exist.")
 
 
 	def __str__(self):
