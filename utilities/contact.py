@@ -45,7 +45,7 @@ class Contact:
 		self.__numbers.remove(found_number)
 
 	def view_numbers(self) -> str:
-		numbers_list = [f"{number}" for no, number in self.__numbers]
+		numbers_list = [f"{number}" for number in self.__numbers]
 		return ", ".join(numbers_list) if numbers_list else "No phone numbers"
 
 	def __find_number(self, find_number: str):

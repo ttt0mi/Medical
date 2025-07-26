@@ -69,6 +69,7 @@ class Personal(ABC):
 
 	@staticmethod
 	def __validate_name(name: str):
+		if not name: raise ValueError("Name cannot be empty")
 		if re.fullmatch(r"^([a-z]+)([-']?)([a-z]+)$", name.strip(), re.I) is None: raise ValueError("Invalid name")
 		"""maybe allow space/underscore character for middle names"""
 

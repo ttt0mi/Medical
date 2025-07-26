@@ -3,18 +3,19 @@ from utilities.medical_history import MedicalHistory
 from utilities.specialisations import Specialisation
 
 class Doctor(Personal):
-	count = 0
+	__id_count = 0
 	def __init__(self, first_name: str, last_name: str, date_of_birth: str, specialty: str):
 		super().__init__(first_name, last_name, date_of_birth)
 		self.specialisation = specialty
+		self.__id = self.__assign_id()
 
 	@classmethod
 	def __assign_id(cls):
-		cls.count += 1
-		return f"DTR-{str(cls.count):>03}"
+		cls.__id_count += 1
+		return f"DTR-{str(cls.__id_count):>03}"
 
 	@property
-	def get_id(self): return self.__assign_id()
+	def get_id(self): return self.__id
 
 	@property
 	def specialisation(self): return self.__specialisation
@@ -32,7 +33,7 @@ class Doctor(Personal):
 
 	def __str__(self):
 		return f"""
-Medical ID: {self.get_id}
+Medical ID: {self.__id}
 Name: {self.first_name + " " + self.last_name}
 Date of Birth: {self.date_of_birth}
 Specialisation: {self.specialisation.value}
@@ -41,19 +42,20 @@ Contact Number: {self.numbers}"""
 
 
 class Patient(Personal):
-	count = 0
+	__id_count = 0
 	def __init__(self, first_name: str, last_name: str, date_of_birth: str, reason: str):
 		super().__init__(first_name, last_name, date_of_birth)
+		self.__id = self.__assign_id()
 		self.__reason = reason
 		self.__medical_history = MedicalHistory()
 
 	@classmethod
 	def __assign_id(cls):
-		cls.count += 1
-		return f"PTT-{str(cls.count):>03}"
+		cls.__id_count += 1
+		return f"PTT-{str(cls.__id_count):>03}"
 
 	@property
-	def get_id(self): return self.__assign_id()
+	def get_id(self): return self.__id
 
 	def add_medical_record(self):
 		pass
@@ -66,7 +68,7 @@ class Patient(Personal):
 
 	def __str__(self):
 		return f"""
-Patient ID: {self.get_id}
+Patient ID: {self.__id}
 Name: {self.first_name + " " +self.last_name}
 Date of Birth: {self.date_of_birth}
 Contact Email: {self.emails}
