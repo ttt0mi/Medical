@@ -1,6 +1,6 @@
 from enum import Enum
 
 class Specialisation(Enum):
-	NURSE = "nurse"
-	DOCTOR = "doctor"
+	NURSE = "Nurse"
+	DOCTOR = "Doctor"
 	#add extras

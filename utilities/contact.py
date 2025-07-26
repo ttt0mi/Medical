@@ -1,12 +1,12 @@
-import re
-
 class Contact:
 	def __init__(self):
 		self.__emails: list = []
 		self.__numbers: list = []
 
+	@property
+	def get_emails(self): return self.__emails
+
 	def add_email(self, email: str):
-		self.__validate_email(email)
 		self.__emails.append(email)
 		
 	def edit_email(self, old_email: str, new_email: str):
@@ -23,19 +23,15 @@ class Contact:
 		emails_list = [f"{email}" for email in self.__emails]
 		return ", ".join(emails_list) if emails_list else "No emails"
 
-	def __validate_email(self, email: str):
-		if re.fullmatch(r"^([\w.-]+)@([a-z]+)\.([a-z.]+)$" ,email, re.I) is None:	#email must be in format "a-z|0-9@a-z.a-z"
-			raise ValueError("Invalid email")
-		if email in self.__emails: raise ValueError(f"Email {email} already exists")		#does not allow duplicates
-		
 	def __find_email(self, find_email: str):
 		for email in self.__emails:
 			if email == find_email: return email
 		raise ValueError(f"Email {find_email} not found")
 
+	@property
+	def get_numbers(self): return self.__numbers
 
 	def add_number(self, number: str):
-		self.validate_number(number)
 		self.__numbers.append(number)
 
 	def edit_number(self, old_number: str, new_number: str):
@@ -50,13 +46,7 @@ class Contact:
 
 	def view_numbers(self) -> str:
 		numbers_list = [f"{number}" for no, number in self.__numbers]
-		return ", ".join(numbers_list) if numbers_list else "No Phone Numbers"
-
-	def validate_number(self, number: str):
-		if re.fullmatch(r"^\d+$", number, re.I) is None:		#number must be all digits
-			raise ValueError("Invalid number")
-		"""add proper number validation pattern after testing"""
-		if number in self.__numbers: raise ValueError(f"Number {number} already exists")		#does not allow duplicates
+		return ", ".join(numbers_list) if numbers_list else "No phone numbers"
 
 	def __find_number(self, find_number: str):
 		for number in self.__numbers:

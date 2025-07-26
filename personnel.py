@@ -4,10 +4,9 @@ from utilities.specialisations import Specialisation
 
 class Doctor(Personal):
 	count = 0
-	def __init__(self, first_name: str, last_name: str, date_of_birth: str, specialisation: str):
+	def __init__(self, first_name: str, last_name: str, date_of_birth: str, specialty: str):
 		super().__init__(first_name, last_name, date_of_birth)
-		self.validate_specialisation(specialisation.lower())
-		self.specialisation = Specialisation(specialisation.lower())
+		self.specialisation = specialty
 
 	@classmethod
 	def __assign_id(cls):
@@ -21,25 +20,24 @@ class Doctor(Personal):
 	def specialisation(self): return self.__specialisation
 
 	@specialisation.setter
-	def specialisation(self, specialisation):
-		self.validate_specialisation(specialisation.lower())
-		self.__specialisation = Specialisation(specialisation.lower())
+	def specialisation(self, specialisation: str):
+		self.__specialisation = self.__find_specialty(specialisation)
 
 	@staticmethod
-	def validate_specialisation(specialisation: str):
-		try: Specialisation(specialisation)
-		except AttributeError:
-			raise AttributeError(f"Specialisation {specialisation} does not exist.")
-
+	def __find_specialty(specialty):
+		try: spec = Specialisation(str(specialty).strip().title())
+		except ValueError:
+			raise ValueError(f"Specialisation {specialty} does not exist.")
+		return spec
 
 	def __str__(self):
 		return f"""
 Medical ID: {self.get_id}
-Name: Dr {self.first_name + " " + self.last_name}
+Name: {self.first_name + " " + self.last_name}
 Date of Birth: {self.date_of_birth}
-Specialisation: {self.specialisation}
-Contact Email: {self.get_emails}
-Contact Number: {self.get_numbers}"""
+Specialisation: {self.specialisation.value}
+Contact Email: {self.emails}
+Contact Number: {self.numbers}"""
 
 
 class Patient(Personal):
@@ -66,21 +64,10 @@ class Patient(Personal):
 	def view_medical_history(self):
 		pass
 
-
 	def __str__(self):
 		return f"""
 Patient ID: {self.get_id}
 Name: {self.first_name + " " +self.last_name}
 Date of Birth: {self.date_of_birth}
-Contact Email: {self.get_emails}
-Contact Number: {self.get_numbers}"""
-
-
-
-me = Doctor("john","smith", "1/1/2011", "doctor")
-you = Doctor("mohammed","la'ad", "1/1/2010", "doctor")
-print(me.first_name)
-me.first_name = "marY-JaNe"
-me.add_email("jm@gmail.com")
-me.add_number("090")
-print(me)
+Contact Email: {self.emails}
+Contact Number: {self.numbers}"""
